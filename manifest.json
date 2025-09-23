@@ -1,0 +1,21 @@
+{
+  "short_name": "Gym Hub",
+  "name": "Gym Member Hub",
+  "description": "A comprehensive web application to manage gym members' data, track payments, and view statistics. All data is stored locally in your browser for privacy and offline access.",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#111827",
+  "background_color": "#f9fafb"
+}

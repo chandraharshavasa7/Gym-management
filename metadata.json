@@ -1,0 +1,5 @@
+{
+  "name": "Gym Member Hub",
+  "description": "A comprehensive Progressive Web App (PWA) to manage gym members' data. It's installable on your phone, works offline, and stores all data locally in your browser for privacy.",
+  "requestFramePermissions": []
+}
