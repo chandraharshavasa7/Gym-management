@@ -145,7 +145,7 @@ const MemberFormModal: React.FC<MemberFormModalProps> = ({ isOpen, onClose, onSa
             <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700">Photo</label>
                 <div className="mt-1 flex items-center gap-4">
-                    <img src={formData.photo || 'https://i.pravatar.cc/150'} alt="Avatar" className="w-16 h-16 rounded-full object-cover"/>
+                    <img src={formData.photo || 'https://i.pravatar.cc/150'} alt="Avatar" className="w-16 h-16 rounded-full object-cover object-top"/>
                     <input type="file" accept="image/*" onChange={handleImageChange} className="text-sm" />
                 </div>
             </div>

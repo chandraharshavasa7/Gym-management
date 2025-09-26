@@ -29,7 +29,7 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onEdit, onDelete }) => 
         <img
           src={member.photo || `https://i.pravatar.cc/300?u=${member.id}`}
           alt={member.fullName}
-          className="w-full aspect-square object-cover object-center"
+          className="w-full aspect-square object-cover object-top"
         />
         <div className={`absolute top-2 right-2 px-2 py-1 text-xs font-bold rounded-full ${statusBgColor} ${statusTextColor}`}>
           {member.paymentStatus}
