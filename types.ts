@@ -10,8 +10,6 @@ export interface Member {
   fullName: string;
   address: string;
   phoneNumber: string;
-  fatherName: string;
-  fatherPhoneNumber: string;
   height: string;
   weight: string;
   whatsAppNumber: string;

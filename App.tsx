@@ -60,10 +60,9 @@ const App: React.FC = () => {
     return members
       .filter(member => {
         const nameMatch = member.fullName.toLowerCase().includes(searchTerm.toLowerCase());
-        const fatherNameMatch = member.fatherName.toLowerCase().includes(searchTerm.toLowerCase());
         const idMatch = member.id.toLowerCase().includes(searchTerm.toLowerCase());
         const phoneMatch = member.phoneNumber.includes(searchTerm);
-        return nameMatch || fatherNameMatch || idMatch || phoneMatch;
+        return nameMatch || idMatch || phoneMatch;
       })
       .filter(member => {
         if (filter === FilterOption.UNPAID_THIS_MONTH) {
@@ -76,7 +75,7 @@ const App: React.FC = () => {
         if (filter === FilterOption.RECENTLY_UPDATED) {
             const ninetyFiveDaysAgo = new Date();
             ninetyFiveDaysAgo.setDate(now.getDate() - 95);
-            return new Date(member.lastUpdatedDate) > ninetyFiveDaysAgo;
+            return member.lastPaymentDate && new Date(member.lastPaymentDate) > ninetyFiveDaysAgo;
         }
         return true;
       })

@@ -47,20 +47,16 @@ const Dashboard: React.FC<DashboardProps> = ({ members }) => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(now.getDate() - 30);
 
-    const recentlyUpdated = members.filter(m => {
-        return new Date(m.lastUpdatedDate) > thirtyDaysAgo;
-    }).length;
-
     const activeLast30d = members.filter(m => {
         return m.lastPaymentDate && new Date(m.lastPaymentDate) > thirtyDaysAgo;
     }).length;
 
-    return { total, paidThisMonth, unpaidThisMonth, recentlyUpdated, activeLast30d };
+    return { total, paidThisMonth, unpaidThisMonth, activeLast30d };
   }, [members]);
 
   return (
     <div className="mb-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
             icon={<UsersIcon className="h-8 w-8 text-white"/>} 
             title="Total Members" 
@@ -78,12 +74,6 @@ const Dashboard: React.FC<DashboardProps> = ({ members }) => {
             title="Unpaid This Month" 
             value={stats.unpaidThisMonth} 
             color="bg-red-500"
-        />
-        <StatCard 
-            icon={<ClockIcon className="h-8 w-8 text-white"/>} 
-            title="Updated Last 30d" 
-            value={stats.recentlyUpdated} 
-            color="bg-yellow-500"
         />
         <StatCard 
             icon={<TrendingUpIcon className="h-8 w-8 text-white"/>} 

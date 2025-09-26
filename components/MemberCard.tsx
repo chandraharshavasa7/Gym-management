@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Member, PaymentStatus } from '../types';
-import { EditIcon, TrashIcon, CalendarIcon, UserIcon, ReceiptIcon } from './Icons';
+import { EditIcon, TrashIcon, CalendarIcon, ReceiptIcon, PhoneIcon } from './Icons';
 
 interface MemberCardProps {
   member: Member;
@@ -28,7 +29,7 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onEdit, onDelete }) => 
         <img
           src={member.photo || `https://i.pravatar.cc/300?u=${member.id}`}
           alt={member.fullName}
-          className="w-full h-48 object-cover"
+          className="w-full aspect-square object-cover object-center"
         />
         <div className={`absolute top-2 right-2 px-2 py-1 text-xs font-bold rounded-full ${statusBgColor} ${statusTextColor}`}>
           {member.paymentStatus}
@@ -40,16 +41,16 @@ const MemberCard: React.FC<MemberCardProps> = ({ member, onEdit, onDelete }) => 
         
         <div className="mt-4 space-y-2 text-sm text-gray-700">
             <div className="flex items-center gap-2">
-                <CalendarIcon />
+                <CalendarIcon className="h-5 w-5 text-gray-400" />
+                <span>Joined: {formatDate(member.joiningDate)}</span>
+            </div>
+            <div className="flex items-center gap-2">
+                <ReceiptIcon className="h-5 w-5 text-gray-400" />
                 <span>Last Paid: {formatDate(member.lastPaymentDate)}</span>
             </div>
             <div className="flex items-center gap-2">
-                <UserIcon />
-                <span>Father: {member.fatherName}</span>
-            </div>
-            <div className="flex items-center gap-2">
-                <ReceiptIcon />
-                <span>Payments Made: {member.paymentHistory?.length || 0}</span>
+                <PhoneIcon className="h-5 w-5 text-gray-400" />
+                <span>{member.phoneNumber || 'N/A'}</span>
             </div>
         </div>
 

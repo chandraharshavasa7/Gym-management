@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Member, PaymentStatus } from '../types';
 import { XIcon, TrashIcon } from './Icons';
@@ -10,15 +11,15 @@ interface MemberFormModalProps {
   existingIds: string[];
 }
 
-const initialFormData: Member = {
-  id: '', photo: '', fullName: '', address: '', phoneNumber: '', fatherName: '',
-  fatherPhoneNumber: '', height: '', weight: '', whatsAppNumber: '', 
+const initialFormData: Omit<Member, 'fatherName'> = {
+  id: '', photo: '', fullName: '', address: '', phoneNumber: '',
+  height: '', weight: '', whatsAppNumber: '', 
   paymentStatus: PaymentStatus.UNPAID, lastPaymentDate: '', joiningDate: '',
   lastUpdatedDate: '', paymentHistory: [], age: '', bloodGroup: '',
 };
 
 const MemberFormModal: React.FC<MemberFormModalProps> = ({ isOpen, onClose, onSave, member, existingIds }) => {
-  const [formData, setFormData] = useState<Member>(initialFormData);
+  const [formData, setFormData] = useState<Omit<Member, 'fatherName'>>(initialFormData);
   const [error, setError] = useState<string | null>(null);
   const [newPayment, setNewPayment] = useState({ date: '', amount: '' });
 
@@ -26,8 +27,9 @@ const MemberFormModal: React.FC<MemberFormModalProps> = ({ isOpen, onClose, onSa
 
   useEffect(() => {
     if (member) {
+      const { fatherName, ...rest } = member;
       setFormData({
-        ...member,
+        ...rest,
         paymentHistory: member.paymentHistory || [], // Ensure paymentHistory is an array
       });
     } else {
@@ -40,6 +42,13 @@ const MemberFormModal: React.FC<MemberFormModalProps> = ({ isOpen, onClose, onSa
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+
+  const handleNameBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (!formData.id.trim() && e.target.value.trim()) {
+        const newId = e.target.value.trim().toLowerCase().replace(/\s+/g, '-');
+        setFormData(prev => ({ ...prev, id: newId }));
+    }
+  }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -113,11 +122,12 @@ const MemberFormModal: React.FC<MemberFormModalProps> = ({ isOpen, onClose, onSa
     
     const memberToSave = {
         ...formData,
+        fatherName: '', // Keep schema consistent if needed elsewhere, though it's being removed
         lastUpdatedDate: new Date().toISOString(),
         joiningDate: formData.joiningDate || new Date().toISOString(),
     };
     
-    onSave(memberToSave, isEditing ? member!.id : undefined);
+    onSave(memberToSave as Member, isEditing ? member!.id : undefined);
   };
 
   if (!isOpen) return null;
@@ -146,7 +156,7 @@ const MemberFormModal: React.FC<MemberFormModalProps> = ({ isOpen, onClose, onSa
             </div>
             <div>
                 <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name*</label>
-                <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+                <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} onBlur={handleNameBlur} required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
             </div>
             <div>
                 <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">Phone Number</label>
@@ -161,15 +171,7 @@ const MemberFormModal: React.FC<MemberFormModalProps> = ({ isOpen, onClose, onSa
                 <textarea name="address" value={formData.address} onChange={handleChange} rows={2} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"></textarea>
             </div>
             <div>
-                <label htmlFor="fatherName" className="block text-sm font-medium text-gray-700">Father's Name</label>
-                <input type="text" name="fatherName" value={formData.fatherName} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
-            </div>
-            <div>
-                <label htmlFor="fatherPhoneNumber" className="block text-sm font-medium text-gray-700">Father's Phone</label>
-                <input type="tel" name="fatherPhoneNumber" value={formData.fatherPhoneNumber} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
-            </div>
-            <div>
-                <label htmlFor="height" className="block text-sm font-medium text-gray-700">Height (cm)</label>
+                <label htmlFor="height" className="block text-sm font-medium text-gray-700">Height (inches)</label>
                 <input type="text" name="height" value={formData.height} onChange={handleChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
             </div>
             <div>

@@ -1,25 +1,30 @@
+
 import { Member } from '../types';
 
 export const exportToCSV = (members: Member[]) => {
   const ninetyFiveDaysAgo = new Date();
   ninetyFiveDaysAgo.setDate(ninetyFiveDaysAgo.getDate() - 95);
 
-  const filteredMembers = members.filter(
-    (member) => new Date(member.lastUpdatedDate) > ninetyFiveDaysAgo
-  );
+  const filteredMembers = members.filter(member => {
+    return member.lastPaymentDate && new Date(member.lastPaymentDate) > ninetyFiveDaysAgo;
+  });
 
   if (filteredMembers.length === 0) {
-    alert('No members have been updated in the last 95 days to export.');
+    alert('No members have paid in the last 95 days to export.');
     return;
   }
 
   const csvContent = [
     ['ID', 'Name', 'Phone Number'],
-    ...filteredMembers.map(member => [
-      member.id,
-      member.fullName,
-      member.phoneNumber
-    ])
+    ...filteredMembers.map(member => {
+        const phoneNumber = (member.phoneNumber || '').trim();
+        const formattedPhone = phoneNumber.startsWith('+') ? phoneNumber : `+91${phoneNumber}`;
+        return [
+            member.id,
+            member.fullName,
+            formattedPhone
+        ];
+    })
   ]
     .map(e => e.join(','))
     .join('\n');
