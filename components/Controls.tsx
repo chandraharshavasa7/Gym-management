@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import { FilterOption, Member } from '../types';
 import { exportToCSV } from '../utils/csvExporter';
@@ -88,7 +87,7 @@ const Controls: React.FC<ControlsProps> = ({
           >
             <option value={FilterOption.ALL}>All Members</option>
             <option value={FilterOption.UNPAID_THIS_MONTH}>Unpaid This Month</option>
-            <option value={FilterOption.RECENTLY_UPDATED}>Updated in Last 95 Days</option>
+            <option value={FilterOption.RECENTLY_UPDATED}>Paid in Last 95 Days</option>
           </select>
         </div>
       </div>
@@ -119,7 +118,7 @@ const Controls: React.FC<ControlsProps> = ({
           className="flex w-full sm:w-auto items-center justify-center gap-2 bg-brand-accent hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition-transform transform hover:scale-105"
         >
           <DownloadIcon />
-          <span>Export CSV</span>
+          <span>Export 95-Day Paid</span>
         </button>
       </div>
     </div>
